@@ -1,0 +1,30 @@
+/* Add this CSS code to a new or existing stylesheet */
+body {
+     background: linear-gradient(45deg, #b3867a, #cea8c1, #d3b0d3, #c49397); 
+     background-size: 400% 400%; 
+    animation: gradient 15s ease infinite; 
+    /* background-image: url('C:/xampp/htdocsProject\php curl\pexels-pixabay-531880.jpg'); Background image URL */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* Drop shadow effect */
+    font-family: 'YourCustomFont', sans-serif;
+   
+}
+
+
+
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

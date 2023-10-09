@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Submit Form with jQuery and PHP cURL</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+ 
+    
+    <!-- Include SweetAlert2 CSS and JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+       <!-- Include your custom CSS file with the animation code --> 
+        <link rel="stylesheet" href="style.css">
+       
+</head>
+
+<body>
+   
+    
+    <div class="container mt-5">
+        <form id="myForm"  action="1page.html" method="post">
+            <p> My Login Page </p>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name" id="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="text" class="form-control" name="mobile" id="mobile" required>
+            </div>
+
+            <div class="form-group">
+                <label for="place">Place:</label>
+                <input type="text" class="form-control" name="place" id="place">
+            </div>
+
+            <div class="form-group">
+                <label for="occupation">Occupation:</label>
+                <input type="text" class="form-control" name="occupation" id="occupation">
+            </div>
+
+
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="successModalLabel">Form Submission Success</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Place for server response -->
+                            <div id="modalResponse"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div id="alertMessage" class="mt-3"></div> <!-- Placeholder for alert message -->
+    </div>
+
+    <div id="response" class="mt-3"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#myForm").submit(function (event) {
+                event.preventDefault();
+
+                // Serialize form data
+                var formData = $(this).serialize();
+
+                // Send form data to PHP using AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "submit.php",
+                    data: formData,
+                    success: function (response) {
+                         // Display success message using SweetAlert2
+                         Swal.fire({
+                            title: 'Success',
+                            text: 'Form data submitted successfully!\nResponse from server:\n' + response,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+
+                          
+                        });
+
+                        // Clear the form after submission
+                        $("#myForm")[0].reset();
+                        // Set a timeout to hide the alert message after a few seconds
+                        setTimeout(function () {
+                            $("#alertMessage").html('');
+                        }, 3000); // 3000 milliseconds (3 seconds)
+
+                        // Display success message in a Bootstrap Modal
+                        $('#successModal').modal('show');
+
+                        // Update the modal content with the server response
+                        $('#modalResponse').html(response);
+
+
+                        $("#response").html(response);
+
+                        // Redirect to the next page (change 'nextpage.html' to the desired URL)
+                       
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(xhr.status + ": " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
